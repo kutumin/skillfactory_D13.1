@@ -17,11 +17,12 @@ from django.contrib import admin
 from django.urls import path
 from django.urls import include
 from django.contrib.flatpages import views
-from .views import PostListNews
+from .views import PostListNews, PostAdd
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('pages/', include('django.contrib.flatpages.urls')),
-    path('blog/', PostListNews.as_view())
+    path('blog/', PostListNews.as_view()),
+    path ('add/', PostAdd.as_view()),
 ]
