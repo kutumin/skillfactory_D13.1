@@ -61,7 +61,7 @@ class Author(models.Model):
         return f'{self.user}'
 
 class Post(models.Model):
-    post_author = models.ForeignKey(Author, on_delete = models.CASCADE)
+    post_author = models.ForeignKey(Author, on_delete = models.CASCADE,db_constraint=False)
     post_date_created = models.DateField(auto_now_add = True)
     post_detailed_data_created = models.TimeField(auto_now_add = True)
     category = models.ForeignKey(Category, on_delete = models.CASCADE)
