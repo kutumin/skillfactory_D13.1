@@ -6,13 +6,15 @@
 
 {% block content %}
 <div class="tm-bg-dark">
-    <h2>{{ flatpage.title }}</h2>
-    <hr>
-    <h1>Blog</h1>
-    <p style="color: blue; font-family: 'Courier New', Courier, monospace; font-size: large;">{{ flatpage.content }}</p>
-    <br>
-    <h3>Здесь будет выгрузка из базы данных</h3>
-    <a href="/info">Home</a>
+    <div class="container">
+        <h2>{{ flatpage.title }}</h2>
+        <hr>
+        <h1>Blog</h1>
+        <p style="color: blue; font-family: 'Courier New', Courier, monospace; font-size: large;">{{ flatpage.content }}</p>
+        <br>
+        <h3>Здесь будет выгрузка из базы данных</h3>
+        <a href="/info">Home</a>
+    </div>
 </div>  
 <br>
  <div class="intro-centre tm-bg-dark">

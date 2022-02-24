@@ -38,6 +38,8 @@ STATICFILES_DIRS = [
 # Application definition
 
 INSTALLED_APPS = [
+    'sign',
+    'protect',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -47,6 +49,11 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django.contrib.flatpages',
     'MMORPG.apps.BlogConfig',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+
 ]
 
 SITE_ID = 1
@@ -82,6 +89,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'MMORPG.wsgi.application'
 
+LOGIN_URL = '/accounts/login/'
+LOGIN_REDIRECT_URL = '/blog'
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
@@ -131,3 +140,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_VERIFICATION = True
