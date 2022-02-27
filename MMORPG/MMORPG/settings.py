@@ -101,8 +101,11 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+AUTHENTICATION_BACKENDS =[
 
-
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
 
@@ -145,3 +148,14 @@ ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_VERIFICATION = True
+
+EMAIL_HOST = 'smtp.mail.ru' 
+EMAIL_PORT = 465 
+EMAIL_HOST_USER = 'skillfactory88'
+EMAIL_HOST_PASSWORD = 'gmZRAANajLKrb7TgvWUi'
+EMAIL_USE_SSL = True
+
+ADMINS = [
+    ('kutumin@gmail.com', 'skillfactory88@mail.ru'),]
+SERVER_EMAIL = 'skillfactory88@mail.ru' 
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER + '@mail.ru'

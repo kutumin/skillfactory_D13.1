@@ -8,6 +8,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.views.generic.edit import CreateView
 from .models import BaseRegisterForm
+from django.template import RequestContext
 
 class BaseRegisterView(CreateView):
     model = User
@@ -15,7 +16,7 @@ class BaseRegisterView(CreateView):
     success_url = '/'
 
 class IndexView(LoginRequiredMixin, TemplateView):
-    template_name = 'protect/index.html'
+    template_name = 'protect/protected_index.html'
 
 class PostListNews(ListView):
     model = Post
@@ -24,7 +25,7 @@ class PostListNews(ListView):
     ordering = ['id']
     paginate_by = 1
 
-class PostAdd(ListView):
+class PostAdd(LoginRequiredMixin, ListView):
     model = Post
     template_name = 'add_post.html'
     context_object_name = 'all_posts_list'
@@ -42,12 +43,13 @@ class PostAdd(ListView):
         context['PostCategory'] = Category.objects.all()
         context['form'] = PostForm()
         return context
-    
+ 
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
         
         if form.is_valid():
+            form.instance.post_author = request.user
             form.save()
         
         return redirect('/blog/')

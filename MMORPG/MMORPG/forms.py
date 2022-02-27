@@ -6,7 +6,7 @@ from django import forms
 class PostForm(ModelForm):
     class Meta:
         model = Post
-        fields = ['id', 'post_author', 'category','article_text',]
+        fields = ['id','category','article_text',]
 
 class SubscriberForm(forms.Form):
     email = forms.EmailField()

@@ -38,7 +38,7 @@ class Category(models.Model):
     category_name = models.CharField(
         max_length=2,
         choices=POST_CATEGORY,
-        default=TANKS,
+        default=None
     )
     def __str__(self):
         return f'{self.category_name}'
@@ -71,10 +71,31 @@ class Author(models.Model):
         return f'{self.user}'
 
 class Post(models.Model):
-    post_author = models.ForeignKey(Author, on_delete = models.CASCADE,db_constraint=False)
+    TANKS = 'T'
+    HILLS = 'H'
+    DEALER = 'D'
+    GILDMASTER = 'GM'
+    QUESTGIVER = 'QG'
+    SMITH = 'SM'
+    LEATHERS = 'L'
+    POISONMAKER = 'PM'
+    SPELLMASTER = 'SM'
+
+    POST_CATEGORY = [
+        (TANKS, 'Tanks'),
+        (HILLS, 'Hills'),
+        (DEALER, 'Dealer'),
+        (GILDMASTER, 'Gildmaster'),
+        (QUESTGIVER, 'Questgiver'),
+        (SMITH, 'Smith'),
+        (LEATHERS, 'Leathers'),
+        (POISONMAKER, 'Poisonmaker'),
+        (SPELLMASTER, 'Spellmaster'),
+    ]
+    post_author = models.OneToOneField(User,on_delete = models.CASCADE)
     post_date_created = models.DateField(auto_now_add = True)
     post_detailed_data_created = models.TimeField(auto_now_add = True)
-    category = models.ForeignKey(Category, on_delete = models.CASCADE)
+    category = models.CharField(max_length=2, choices=POST_CATEGORY)
     head_of_post = models.CharField(max_length = 255)
     article_text = models.TextField()
     image = models.FileField(blank=True)

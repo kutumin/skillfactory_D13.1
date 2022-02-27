@@ -21,14 +21,13 @@
     <div class="container">
                 {% if all_posts_list %}
                 {% for i in all_posts_list %}
-                    <p> № Поста:  {{i.id}}</p>
+                    <p> Дата поста: {{ i.post_date_created}}</p>
                     <br>
                     {{ i.article_text}}
                     <br>
-                    {{ i.post_date_created}}
                     <br>
                     <br>
-                    {{ i.post_author}}
+                    Автор: {{ i.post_author}}
                     <br>
                     <br>
                     <br>
