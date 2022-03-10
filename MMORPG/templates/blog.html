@@ -19,7 +19,6 @@
 <br>
  <div class="intro-centre tm-bg-dark">
     <div class="container">
-                {% if all_posts_list %}
                 {% for i in all_posts_list %}
                     <p> Дата поста: {{ i.post_date_created}}</p>
                     <br>
@@ -29,17 +28,54 @@
                     <br>
                     Автор: {{ i.post_author}}
                     <br>
+                    Категория поста: {{ i.category}}
+                    <br>
+                    {% if i.image %}
+                        <img src="{{ i.image.url }}">
+                    {% endif %}
+                    <br>
+                    Видео:
+                    {% if i.video %}
+                    <video width="400" height="300" controls>
+                        <source src="{{ i.video.url}}" type="video/mp4">
+                    </video>
+                    {% endif %}
                     <br>
                     <br>
-                {% endfor %}
-                <br>
-                {% if is_paginated %}
+                    <a href="{% url 'update_post_detail' i.id %}"><u>Редактировать</u></a>
+                    <a href="{% url 'post_delete' i.id %}"><u> Удалить </u></a> 
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <h2>Comments..</h2>
+                    <br>
+                    <br>
+                    {% if not i.comments.all %}
+                        No comments yet ... <a href="#">
+                        Add One    
+                        </a>
+                    {% else %} 
+                        {% for comment in i.comments.all %}
+                            <strong>
+                            {{comment.author}}
+                            {{comment.created_on}}
+                            </strong>
+                            <br>
+                            <br>
+                            {{comment.text}}
+                        {% endfor %}
+                    {% endif %}
+
+                    <br>
+                    <br>
+                    <br>
+                    {% if is_paginated %}
                     <!-- Если доступна предыдущая страница, то даём ссылку на неё и самую первую страницу -->
                     {% if page_obj.has_previous %}
                         <a href="?page=1">Первая</a>
                         <a href="?page={{ page_obj.previous_page_number }}"><</a>
                     {% endif %}
-
                     <!-- Показываем только текущую страницу и ближайшие к ней, чтобы список не тянулся и не захламлял страницу -->
                     {% for num in page_obj.paginator.page_range %}
                         {% if page_obj.number == num %}
@@ -48,17 +84,18 @@
                             <a href="?page={{ num }}">{{ num }}</a>
                         {% endif %}
                     {% endfor %}
-
                     <!-- Если есть следующая страница, то даём ссылку на неё и на самую последнюю страницу -->
                     {% if page_obj.has_next %}
                         <a href="?page={{ page_obj.next_page_number }}">></a>
                         <a href="?page={{ page_obj.paginator.num_pages }}">Последняя</a>
                     {% endif %}
-
                 {% endif %}
-            {% else %}
-                <h2>Новостей нет!</h2>
-            {% endif %}
+            <br>
+            <br>
+                    <br>
+                    <br>
+                    <br>
+                {% endfor %}
             <br>
             <br>
     </div>

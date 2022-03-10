@@ -98,22 +98,24 @@ class Post(models.Model):
     category = models.CharField(max_length=2, choices=POST_CATEGORY)
     head_of_post = models.CharField(max_length = 255)
     article_text = models.TextField()
-    image = models.FileField(blank=True)
-    video = models.FileField(blank=True)
+    image = models.ImageField(upload_to = 'images/')
+    video = models.FileField(upload_to='video/')
 
     def __str__(self):
         return self.head_of_post
-
-class PostImage(models.Model):
-    post = models.ForeignKey(Post, default=None, on_delete=models.CASCADE)
-    images = models.FileField(upload_to = 'images/')
-
+    
+    def get_absolute_url(self): 
+        return f'/{self.id}' 
+    
+class Comment(models.Model):
+    post = models.ForeignKey(Post,on_delete=models.CASCADE, related_name='comments')
+    text = models.TextField()
+    created_on = models.DateTimeField(auto_now_add=True)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    active = models.BooleanField(default=False)
+        
+    class Meta:
+        ordering = ['created_on']
+        
     def __str__(self):
-        return self.post.head_of_post
-
-class PostVideo(models.Model):
-    post = models.ForeignKey(Post, default=None, on_delete=models.CASCADE)
-    images = models.FileField(upload_to = 'videos/')
-
-    def __str__(self):
-        return self.post.head_of_post
+        return 'Comment {} by {}'.format(self.text, self.author, self.created_on)

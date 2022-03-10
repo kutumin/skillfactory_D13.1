@@ -159,3 +159,9 @@ ADMINS = [
     ('kutumin@gmail.com', 'skillfactory88@mail.ru'),]
 SERVER_EMAIL = 'skillfactory88@mail.ru' 
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER + '@mail.ru'
+
+# Base url to serve media files
+MEDIA_URL = '/media/'
+
+# Path where media is stored
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')

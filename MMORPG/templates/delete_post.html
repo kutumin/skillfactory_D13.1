@@ -1,0 +1,44 @@
+{% extends 'flatpages/base.html' %}
+
+{% block title %}
+{{ flatpage.title }}
+{% endblock title %}
+
+{% block content %}
+<div class="container">
+<br>
+<h2>Вы действительно хотите удалить post?</h2>
+<br>
+<br>
+
+                    <p> Дата поста: {{ all_posts_list.post_date_created}}</p>
+                    <br>
+                    {{ all_posts_list.article_text}}
+                    <br>
+                    <br>
+                    <br>
+                    Автор: {{ all_posts_list.post_author}}
+                    <br>
+                    Категория поста: {{ all_posts_list.category}}
+                    <br>
+                    {% if i.image %}
+                        <img src="{{ all_posts_list.image.url }}">
+                    {% endif %}
+                    <br>
+                    Видео:
+                    {% if i.video %}
+                    <video width="400" height="300" controls>
+                        <source src="{{ all_posts_list.video.url}}" type="video/mp4">
+                    </video>
+                    {% endif %}
+
+</table>
+
+<br>
+<br>
+
+<form method="POST">
+    {% csrf_token %}
+    <input type="submit" value="подтвердить"></form>
+</div>>
+{% endblock content %} 
