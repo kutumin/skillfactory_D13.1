@@ -11,6 +11,9 @@ from .models import BaseRegisterForm
 from django.template import RequestContext
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.core.cache import cache
+import datetime
+from django.template.loader import render_to_string
+from django.core.mail import EmailMultiAlternatives
 
 class BaseRegisterView(CreateView):
     model = User
@@ -77,7 +80,24 @@ class PostDetail(DetailView):
     def post(self, request, *args, **kwargs):
         new_comment = Comment(text=request.POST.get('text'), author = self.request.user, post=self.get_object())
         new_comment.save()
-
+        article_text=new_comment.text
+        article_author=new_comment.author
+        created = datetime.datetime.now()
+        post = self.get_object()
+        post_text = post.article_text
+        tuple = {
+                'article_text':article_text,
+                'article_author':article_author,
+                'post_text':post_text}
+        html_content = render_to_string('email_template.html', { 'context': article_text, 'article_author':article_author, 'article_text':article_text, 'article_date': created, 'post_text': post_text},)
+        msg = EmailMultiAlternatives(
+            subject='новый комментарий!',
+            body=html_content,
+            from_email='skillfactory88@mail.ru',
+            to=[post.post_author.email,])
+        msg.attach_alternative(html_content, "text/html")
+        msg.send() 
+        
         return self.get(self, request, *args, **kwargs)
 
 class PostDetailEdit(DetailView):

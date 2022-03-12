@@ -10,27 +10,19 @@
     <hr>
     <h3>Детальная информация по статье</h3>
     <i>{{ flatpage.content }} </i>
-                    <p> Дата поста: {{ object.post_date_created}}</p>
-                    <br>
-                    {{ object.article_text}}
-                    <br>
-                    <br>
-                    <br>
-                    Автор: {{ object.post_author}}
-                    <br>
-                    Категория поста: {{ object.category}}
-                    <br>
-                    {% if object.image %}
-                        <img src="{{ object.image.url }}">
-                    {% endif %}
-                    <br>
-                    Видео:
-                    {% if object.video %}
-                    <video width="400" height="300" controls>
-                        <source src="{{ object.video.url}}" type="video/mp4">
-                    </video>
-                    {% endif %}
-                    <br>
+    <br>
+    {% if user.is_authenticated %}
+    <form method="POST">
+      {% csrf_token %}
+      <div class="form-group">
+        {{ comment_form }}
+        <button class="btn btn-info" type="submit">Add comment <i class="fas fa-comments"></i></button>
+      </div>
+    </form>
+    {% else %}
+    <a class="btn btn-outline-info" href="{% url 'login' %}?next={{request.path}}">Log in to add a comment!</a><br>
+    {% endif %}
+    <br>
                     <br>
                     <h2>Comments..</h2>
                     <div id="comments_section">
@@ -53,19 +45,27 @@
                         {% endif %}
                         <br>
                         <br>
-                        <br>
-                        {% if user.is_authenticated %}
-                        <form method="POST">
-                          {% csrf_token %}
-                          <div class="form-group">
-                            {{ comment_form }}
-                            <button class="btn btn-info" type="submit">Add comment <i class="fas fa-comments"></i></button>
-                          </div>
-                        </form>
-                        {% else %}
-                        <a class="btn btn-outline-info" href="{% url 'login' %}?next={{request.path}}">Log in to add a comment!</a><br>
-                        {% endif %}
-
+                        <p> Дата поста: {{ object.post_date_created}}</p>
+                    <br>
+                    {{ object.article_text}}
+                    <br>
+                    <br>
+                    <br>
+                    Автор: {{ object.post_author}}
+                    <br>
+                    Категория поста: {{ object.category}}
+                    <br>
+                    {% if object.image %}
+                        <img src="{{ object.image.url }}">
+                    {% endif %}
+                    <br>
+                    Видео:
+                    {% if object.video %}
+                    <video width="400" height="300" controls>
+                        <source src="{{ object.video.url}}" type="video/mp4">
+                    </video>
+                    {% endif %}
+                    <br>
                     </div>
                     <br>
                     <br>

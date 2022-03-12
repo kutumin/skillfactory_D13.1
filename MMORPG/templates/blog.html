@@ -52,8 +52,7 @@
                     <br>
                     <br>
                     {% if not i.comments.all %}
-                        No comments yet ... <a href="#">
-                        Add One    
+                        No comments yet ... <a href="{% url 'post_detail' i.id %}"><u> Добавить коммент </u></a> > 
                         </a>
                     {% else %} 
                         {% for comment in i.comments.all %}
@@ -65,8 +64,11 @@
                             <br>
                             {{comment.text}}
                         {% endfor %}
+                        <br>
+                        <a href="{% url 'post_detail' i.id %}"><u> Добавить коммент </u></a> >
+                        <br>
                     {% endif %}
-
+                    
                     <br>
                     <br>
                     <br>
