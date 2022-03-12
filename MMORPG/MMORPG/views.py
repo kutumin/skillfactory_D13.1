@@ -22,6 +22,13 @@ class BaseRegisterView(CreateView):
 
 class IndexView(LoginRequiredMixin, TemplateView):
     template_name = 'protect/protected_index.html'
+    model = Post
+
+    def get_posts (request):
+        user = request.user
+        posts = Post.objects.get(post_author=user)
+        
+        return posts
 
 class PostListNews(ListView):
     model = Post
