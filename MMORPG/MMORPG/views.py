@@ -20,15 +20,15 @@ class BaseRegisterView(CreateView):
     form_class = BaseRegisterForm
     success_url = '/'
 
-class IndexView(LoginRequiredMixin, TemplateView):
+class IndexView(LoginRequiredMixin, ListView):
     template_name = 'protect/protected_index.html'
     model = Post
 
-    def get_posts (request):
-        user = request.user
-        posts = Post.objects.get(post_author=user)
-        
-        return posts
+    def index_page(request):
+        logged_in_user = request.user
+        logged_in_user_posts = Post.objects.filter(post_author=logged_in_user)
+
+        return render(request, 'protected_index.html', {'posts': logged_in_user_posts})
 
 class PostListNews(ListView):
     model = Post
