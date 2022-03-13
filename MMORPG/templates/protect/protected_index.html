@@ -1,30 +1,49 @@
-{% extends "main.html" %}
+{% extends 'flatpages/base.html' %}
 
 {% block content %}
-<h2>Страница авторизованного пользователя {{request.user.username}}</h2>
-<br>
-<a href="/add">Добавить новый пост</a>
-<br>
-<br> 
-<div>
+<div class="container">
+    <div class="intro-centre">
+    <h1>Страница авторизованного пользователя</h1>
+    <h2>{{request.user.username}}</h2>
+    <br>
+    <a href="/add">Добавить новый пост</a>
+    <br>
+    <br> 
+        <div>
+            <br>{% for i in user_posts%}
+                Author: {{i.post_author}}
+                <br>
+                Text: {{ i.article_text}}
+                <br>
+                Data: {{ i.post_date_created}}
+                <br>
+                <br>
+                {% if i.image %}
+                            <img src="{{ i.image.url }}">
+                {% endif %}
+                <br>
+                <br>
+                {% if not i.comments.all %}
+                No comments yet ... <a href="{% url 'post_detail' i.id %}"><u> Добавить коммент </u></a>
+                <br>
+                <br>
+                {% else %} 
+                            {% for comment in i.comments.all %}
+                                <strong>
+                                {{comment.author}}
+                                {{comment.created_on}}
+                                </strong>
+                                <br>
+                                {{comment.text}}
+                                <br>
+                                <br>
+                            {% endfor %}
+                            {% endif %}
+                {% endfor %}
+            <br>
+            </div>
+    <br>
+    <button class="btn btn-success"> <a href="/accounts/logout/">Выйти</a> </button>
     <div>
-        <br>{% for i in user_posts%}
-            Author: {{i.post_author}}
-            <br>
-            Text: {{ i.article_text}}
-            <br>
-            Data: {{ i.post_date_created}}
-            <br>
-            <br>
-            {% if i.image %}
-                        <img src="{{ i.image.url }}">
-            {% endif %}
-            <br>
-            <br>
-        {% endfor %}
-        <br>
-        </div>
 </div>
-<br>
-<button> <a href="/accounts/logout/">Выйти</a> </button>
 {% endblock %}
