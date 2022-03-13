@@ -1,0 +1,23 @@
+.{% extends "main.html" %}
+
+{% block content %}
+<h2>Страница авторизованного пользователя {{request.user.username}}</h2>
+<br>
+<a href="/add">Добавить новый пост</a>
+<br>
+<br> 
+<div>
+    <div>
+        {% for i in posts %}
+        
+            Username: {{ i.post_author }}
+            Post: {{ i.article_text }}
+        
+            <br>
+        
+        {% endfor %}
+        </div>
+</div>
+<br>
+<button> <a href="/accounts/logout/">Выйти</a> </button>
+{% endblock %}

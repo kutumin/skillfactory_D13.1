@@ -2,11 +2,12 @@ from django.contrib import admin
 from django.urls import path
 from django.urls import include
 from django.contrib.flatpages import views
-from .views import PostListNews, PostAdd, IndexView, ProductUpdateView, PostDeleteView, PostDetail
+from .views import PostListNews, PostAdd, ProductUpdateView, PostDeleteView, PostDetail, PostSearch
 from django.shortcuts import redirect
 from django.contrib.auth.views import LoginView, LogoutView
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib.auth import views as auth_views
 
 
 urlpatterns = [
@@ -19,5 +20,5 @@ urlpatterns = [
     path('blog/', PostListNews.as_view()),
     path('add/', PostAdd.as_view()),
     path('accounts/', include('allauth.urls')),
-    path('protect/', IndexView.as_view()),
+    path('home/', PostSearch.as_view()),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

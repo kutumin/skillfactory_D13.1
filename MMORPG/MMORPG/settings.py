@@ -90,7 +90,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'MMORPG.wsgi.application'
 
 LOGIN_URL = '/accounts/login/'
-LOGIN_REDIRECT_URL = '/blog'
+LOGIN_REDIRECT_URL = '/home'
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases

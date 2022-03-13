@@ -8,15 +8,21 @@
 <br> 
 <div>
     <div>
-        {{posts}}
-        {% for i in posts %}
-        
-            Username: {{ i.post_author }}
-            Post: {{ i.article_text }}
-        
+        <br>{% for i in user_posts%}
+            Author: {{i.post_author}}
             <br>
-        
+            Text: {{ i.article_text}}
+            <br>
+            Data: {{ i.post_date_created}}
+            <br>
+            <br>
+            {% if i.image %}
+                        <img src="{{ i.image.url }}">
+            {% endif %}
+            <br>
+            <br>
         {% endfor %}
+        <br>
         </div>
 </div>
 <br>

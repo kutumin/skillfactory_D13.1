@@ -1,3 +1,4 @@
+from urllib import request
 from django.shortcuts import redirect, render
 from django.views.generic import ListView, DetailView, UpdateView, DeleteView
 from .models import Category, Post, Author, Comment
@@ -14,21 +15,19 @@ from django.core.cache import cache
 import datetime
 from django.template.loader import render_to_string
 from django.core.mail import EmailMultiAlternatives
+from django.contrib.auth.decorators import login_required
 
 class BaseRegisterView(CreateView):
     model = User
     form_class = BaseRegisterForm
     success_url = '/'
 
-class IndexView(LoginRequiredMixin, ListView):
-    template_name = 'protect/protected_index.html'
-    model = Post
-
-    def index_page(request):
-        logged_in_user = request.user
-        logged_in_user_posts = Post.objects.filter(post_author=logged_in_user)
-
-        return render(request, 'protected_index.html', {'posts': logged_in_user_posts})
+class PostSearch(LoginRequiredMixin, ListView):
+    def get(self, request):
+        author_id = request.user.id
+        user_posts = Post.objects.filter(post_author=author_id)
+        template = 'protect/protected_index.html'
+        return render(request, template, {'user_posts':user_posts,'author': author_id})
 
 class PostListNews(ListView):
     model = Post
