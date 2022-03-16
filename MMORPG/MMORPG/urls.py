@@ -21,4 +21,6 @@ urlpatterns = [
     path('add/', PostAdd.as_view()),
     path('accounts/', include('allauth.urls')),
     path('home/', PostSearch.as_view()),
+    path('comment/<int:pk>/approve/', views.comment_approve, name='comment_approve'),
+path('comment/<int:pk>/remove/', views.comment_remove, name='comment_remove'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
