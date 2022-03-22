@@ -130,6 +130,18 @@ class PostDeleteView(LoginRequiredMixin,DeleteView):
 def comment_approve(request, pk):
     comment = get_object_or_404(Comment, pk=pk)
     comment.approve()
+    comment_author = comment.author
+    comment_text = comment.text
+    created_on = comment.created_on
+    post_text = comment.post.article_text
+    html_content = render_to_string('email_template_comment.html', {'comment_author':comment_author, 'comment_text':comment_text, 'created_on': created_on, 'post_text':post_text},)
+    msg = EmailMultiAlternatives(
+        subject='Ваш комментарий был одобрен',
+            body=html_content,
+            from_email='skillfactory88@mail.ru',
+            to=[comment.author.email,])
+    msg.attach_alternative(html_content, "text/html")
+    msg.send()
     return redirect('post_detail', pk=comment.post.pk)
 
 @login_required
