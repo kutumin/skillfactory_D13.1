@@ -39,6 +39,9 @@
                                 <br>
                                 Комментарий активный?
                                 {{comment.active}}
+                                <a href="{% url 'comment_approve' comment.id%}"><u> Подтвердить Комментарий </u></a>
+                                <br>
+                                <a href="{% url 'comment_remove' comment.id%}"><u> Удалить Комментарий </u></a>
                                 <br>
                                 <br>
                             {% endfor %}

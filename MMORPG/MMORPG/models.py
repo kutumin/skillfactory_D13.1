@@ -118,7 +118,7 @@ class Comment(models.Model):
         ordering = ['created_on']
     
     def approve(self):
-        self.approved_comment = True
+        self.active = True
         self.save()
         
     def __str__(self):

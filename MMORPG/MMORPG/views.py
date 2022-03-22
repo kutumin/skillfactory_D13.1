@@ -1,5 +1,5 @@
 from urllib import request
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 from django.views.generic import ListView, DetailView, UpdateView, DeleteView
 from .models import Category, Post, Author, Comment
 from .forms import PostForm, CommentForm
@@ -16,18 +16,6 @@ import datetime
 from django.template.loader import render_to_string
 from django.core.mail import EmailMultiAlternatives
 from django.contrib.auth.decorators import login_required
-
-@login_required
-def comment_approve(request, pk):
-    comment = get_object(Comment, pk=pk)
-    comment.approve()
-    return redirect('post_detail', pk=comment.post.pk)
-
-@login_required
-def comment_remove(request, pk):
-    comment = get_object(Comment, pk=pk)
-    comment.delete()
-    return redirect('post_detail', pk=comment.post.pk)
 
 class BaseRegisterView(CreateView):
     model = User
@@ -137,3 +125,15 @@ class PostDeleteView(LoginRequiredMixin,DeleteView):
     queryset = Post.objects.all()
     context_object_name = 'all_posts_list'
     success_url = '/blog/'
+
+@login_required
+def comment_approve(request, pk):
+    comment = get_object_or_404(Comment, pk=pk)
+    comment.approve()
+    return redirect('post_detail', pk=comment.post.pk)
+
+@login_required
+def comment_remove(request, comment_id):
+    comment = get_object_or_404(Comment, pk=comment_id)
+    comment.delete()
+    return redirect('post_detail', pk=comment.post.pk)
